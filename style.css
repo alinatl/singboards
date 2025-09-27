@@ -46,7 +46,7 @@ header {
 .map-container {
   width: 100%;
   max-width: 800px;   /* максимум для ПК */
-  height: 450px;      /* высота по умолчанию */
+  height: 450px;      /* стандартная высота */
   margin: 0 auto;     /* центрируем */
 }
 
@@ -57,21 +57,19 @@ header {
   border: 0;
 }
 
-/* Стили для мобильных устройств */
+/* Медиа-запрос для мобильных устройств */
 @media (max-width: 768px) {
   .gallery img:hover {
     transform: none; /* убираем увеличение на телефоне */
   }
 
   .gallery {
-    flex-direction: column; /* картинки ставим вертикально, если нужно */
+    flex-direction: column; /* картинки ставим вертикально */
     gap: 10px;
   }
-}
 
   .map-container {
     max-width: 100%;  /* растягиваем на всю ширину экрана */
-    height: 50px;    /* меньше по высоте на телефоне */
+    height: 300px;    /* высота на телефоне меньше, но адекватная */
   }
-
-
+}
