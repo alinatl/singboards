@@ -36,6 +36,18 @@ header {
   box-shadow: 0 6px 16px rgba(0,0,0,0.3); /* добавляем эффект всплытия */
 }
 
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+  .gallery img:hover {
+    transform: none; /* убираем увеличение на телефоне */
+  }
+
+  .gallery {
+    flex-direction: column; /* картинки ставим вертикально, если нужно */
+    gap: 10px;
+  }
+}
+
 /* Карта */
 .map {
   margin: 20px;
