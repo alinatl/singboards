@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Страница с картами и картинками</title>
+  <title>Вывески Бишкека</title>
   <style>
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -20,21 +24,22 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-      align-items: center;
+      align-items: start;
     }
 
     .images {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
+      gap: 20px;
     }
 
     .carousel {
       position: relative;
       overflow: hidden;
       width: 100%;
-      height: 100vh;
+      height: 600px;
     }
+
     .slide {
       position: absolute;
       width: 100%;
@@ -47,15 +52,33 @@
       opacity: 1;
       transform: translateX(0);
     }
+
     img {
       width: 100%;
-      height: 100%;
+      height: auto;
+      max-width: 900px; /* уменьшает ширину */
+      max-height: 800px; /* ограничивает высоту */
       object-fit: cover;
+      # border-radius: 8px;
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px; /* совпадает с изображением */
+      text-align: center;
+      color: white;
+      background: transparent; /* фон прозрачный */
+      padding: 8px 0;
+      font-size: 25px;
     }
 
     .map {
-      width: 50%;
-      height: 300px;
+      width: 100%;
+      height: 600px;
       border-radius: 8px;
     }
 
@@ -64,24 +87,35 @@
         grid-template-columns: 1fr;
       }
     }
+
+    .big-text {
+      font-size: 20px; /* размер шрифта */
+    }
   </style>
 </head>
 <body>
 
-  <h1>Моя страница с картами и фотографиями</h1>
+  <h1>Киевская д155. Витрины магазинов</h1>
+
+  <p class="big-text">Эволюция вывесок и дизайна. Красивый пример того, как простая вывеска может передавать дух эпохи.</p>
 
   <!-- Первый блок -->
   <section>
     <div class="block">
       <div class="carousel">
-        <div class="slide active"><img src="images/mixxStore_2.jpg"></div>
-        <div class="slide"><img src="images/mixxStore_3.jpg"></div>
+        <div class="slide active">
+            <img src="images/mixxStore_3.jpg">
+            <div class="caption">Лето 2025</div>
+        </div>
+        <div class="slide">
+          <img src="images/mixxStore_2.jpg">
+          <div class="caption">Осень 2023</div>
+        </div>
       </div>
       <iframe class="map"
         src="https://www.google.com/maps/embed?pb=!4v1758968509129!6m8!1m7!1sXAHSPU3e-FD3EgDj9JEf3A!2m2!1d42.87543438959673!2d74.58581650906005!3f167.87!4f4.5!5f1.3357038177820932"
         allowfullscreen="" loading="lazy"></iframe>
     </div>
-    <p>Это описание к первой фотографии и карте. Текст идёт ниже.</p>
   </section>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
