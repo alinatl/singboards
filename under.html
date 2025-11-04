@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вывески Бишкека</title>
+</head>
+<style>
+    @font-face {
+        font-family: 'SovietStyleCyrilic';
+        src: url('fonts/SovietStyleCyrilic-Regular.woff') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-family: 'SovietStyleCyrilic', sans-serif;
+      size: 50px;
+      font-size: 60px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    body {
+      background: #f4f4f4 url("images/background_3.jpg") repeat;
+      background-size: cover; /* или contain, если нужно подогнать */
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("images/background_3.jpg") no-repeat center center fixed;
+      background-size: cover;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    .block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .images {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+    }
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 600px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      transform: translateX(100%);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      #max-width: 900px; /* уменьшает ширину */
+      #max-height: 800px; /* ограничивает высоту */
+      object-fit: contain;
+      # border-radius: 8px;
+    }
+
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .caption {
+      position: absolute;
+      top: 85%;
+      right: -5%;
+      transform: translate(-50%, 0);
+      text-align: right;   /* текст по правому краю */
+      color: white;
+      background: rgba(0, 0, 0, 0.6); /* или rgba для полупрозрачного фона */
+      padding-right: 0px;       /* отступы внутри блока */
+      font-size: 30px;
+      display: flex;
+      align-items: flex-start;   /* вертикальное выравнивание текста */
+      justify-content: flex-end; /* горизонтальное выравнивание текста */
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 14px;
+    }
+
+    .dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .dot.active {
+      background: #1f1f1f;
+    }
+
+    #.map {
+    #  width: 100%;
+    #  height: 600px;
+    #  border-radius: 8px;
+    #}
+
+    .map {
+      width: 100%;          /* адаптируется под ширину экрана */
+      max-width: 900px;     /* никогда не шире 800px */
+      max-height: 600px;
+      aspect-ratio: 3 / 4;  /* сохраняем пропорции 3:4 */
+      border-radius: 8px;
+      display: block;       /* для margin: auto */
+      margin: 0 auto;       /* центрирование горизонтально */
+    }
+
+    .big-text {
+      font-size: 20px; /* размер шрифта */
+    }
+
+    @media (max-width: 768px) {
+      .block {
+        grid-template-columns: 1fr;
+      }
+
+      .carousel,
+      .map {
+        height: 400px;
+      }
+
+    }
+
+
+  </style>
+<body>
+
+  <h1>Киевская д155. Витрины магазинов</h1>
+
+  <p class="big-text">Эволюция вывесок и дизайна.</p>
+  <p class="big-text">Красивый пример того, как простая вывеска может передавать дух эпохи.</p>
+
+  <!-- Первый блок -->
+  <section>
+      <div class="carousel">
+        <div class="slide active">
+          <div class="img-wrapper">
+            <img src="images/mixxStore_3_cut.jpg">
+            <div class="caption">Лето 2025</div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="img-wrapper">
+            <img src="images/mixxStore_2.JPG">
+            <div class="caption">Осень 2023</div>
+          </div>
+        </div>
+        <div class="dots"></div>  <!-- контейнер для точек -->
+      </div>
+
+      <p class="big-text">Здесь можно вставить текст между каруселью и картой.</p>
+
+      <iframe class="map"
+        src="https://www.google.com/maps/embed?pb=!4v1762074495807!6m8!1m7!1s1ERPdw_zCGRC7J1KJfOrHw!2m2!1d42.87542940997766!2d74.58595307769701!3f160.8419115838219!4f0.6999427996125291!5f3.276484656830229"
+        allowfullscreen="" loading="lazy"></iframe>
+  </section>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const dotsContainer = document.createElement('div');
+      dotsContainer.classList.add('dots');
+      document.querySelector('.carousel').appendChild(dotsContainer);
+
+      let current = 0;
+
+      // создаем точки
+      slides.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          current = i;
+          showSlide(current);
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = dotsContainer.querySelectorAll('.dot');
+
+      function showSlide(next) {
+        slides.forEach((s, i) => {
+          s.classList.toggle('active', i === next);
+          dots[i].classList.toggle('active', i === next);
+        });
+      }
+
+      // листание по клику на слайд
+      slides.forEach(slide => {
+        slide.addEventListener('click', () => {
+          current = (current + 1) % slides.length;
+          showSlide(current);
+        });
+      });
+    });
+  </script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
