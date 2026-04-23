@@ -123,6 +123,12 @@
             font-size: clamp(8rem, 15vw, 12rem);
         }
 
+        /* ===== ТИПОГРАФИКА АРХИВА ===== */
+        main > header h1 {
+          font-family: 'SovietStyleCyrilic', sans-serif;
+          letter-spacing: 1px;
+        }
+
         /* Отступ при скролле (Header 64px + Alphabet ~50px = 114px) */
         section { scroll-margin-top: 120px; }
 
@@ -180,20 +186,18 @@
     </div>
 </main>
 
+<script src="assets/js/site-core.js"></script>
 <script>
-    // 1. Логика Бургера
-    const burgerBtn = document.getElementById('burgerBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    burgerBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-        const spans = burgerBtn.querySelectorAll('span');
-        spans[0].style.transform = mobileMenu.classList.contains('active') ? 'rotate(45deg) translate(5px, 5px)' : 'none';
-        spans[1].style.opacity = mobileMenu.classList.contains('active') ? '0' : '1';
-        spans[2].style.transform = mobileMenu.classList.contains('active') ? 'rotate(-45deg) translate(5px, -5px)' : 'none';
-    });
+    // Общая логика (хедер/бургер/карусель/lightbox/рандом) живёт в assets/js/site-core.js
+    if (window.SiteCore && typeof window.SiteCore.init === 'function') {
+        window.SiteCore.init({
+            random: null
+        });
+    }
 
     const archiveContent = document.getElementById('archive-content');
     const alphabetNav = document.getElementById('alphabet-nav');
+    const mobileMenu = document.getElementById('mobileMenu');
 
     function typeLabel(type) {
         if (type === 'mosaic') return 'Мозаика';
@@ -246,7 +250,7 @@
                 e.preventDefault();
                 const target = document.getElementById(`letter-${letter}`);
                 window.scrollTo({ top: target.offsetTop - 110, behavior: 'smooth' });
-                mobileMenu.classList.remove('active');
+                if (mobileMenu) mobileMenu.classList.remove('active');
             };
             alphabetNav.appendChild(navBtn);
 
