@@ -1,154 +1,135 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Скоро будет!</title>
-    <style>
-        /* 1. ИМПОРТ ВАШИХ ШРИФТОВ */
-        @font-face {
-            font-family: 'SovietStyleCyrilic';
-            src: url('../fonts/SovietStyleCyrilic-Regular.woff') format('woff');
-            font-display: swap;
-        }
-
-        /* cyrillic-ext */
-        @font-face {
-            font-family: 'Unbounded';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtsZfrxE.woff2) format('woff2');
-            unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-        }
-        /* cyrillic */
-        @font-face {
-            font-family: 'Unbounded';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwv8ZfrxE.woff2) format('woff2');
-            unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-        }
-
-        /* 2. ВАШИ ПЕРЕМЕННЫЕ */
-        :root {
-            --bg-main: #fbfbfb;
-            --accent-red: #CC0000;
-            --text-main: #1a1a1a;
-            --text-dim: #666;
-            --glass-border: rgba(0, 0, 0, 0.1);
-        }
-
-        /* 3. ОБЩИЕ СТИЛИ И ФОН */
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        /* Фоновая текстура (как в вашем коде) */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: url("../images/background.jpg") center / cover no-repeat;
-            opacity: 0.15;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .container {
-            padding: 2rem;
-            max-width: 90%;
-        }
-
-        /* 4. ГЛАВНЫЙ ЗАГОЛОВОК (Крупно) */
-        h1 {
-            font-family: 'SovietStyleCyrilic', sans-serif;
-            font-size: clamp(3rem, 12vw, 8rem); /* Адаптивный размер */
-            line-height: 0.95;
-            margin: 0 0 1.5rem 0;
-            color: var(--text-main);
-            text-transform: uppercase;
-        }
-
-        /* 5. ПОДЗАГОЛОВОК */
-        p {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            color: var(--text-dim);
-            margin: 0;
-        }
-
-        /* 6. СТИЛИЗАЦИЯ ССЫЛКИ (Наследовано из вашего кода) */
-        .inline-link {
-            display: inline-block;
-            font-family: 'Unbounded', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-main);
-            letter-spacing: 1px;
-            position: relative;
-            padding-bottom: 5px;
-            transition: color 0.3s ease;
-            animation: floatingLink 3s ease-in-out infinite;
-        }
-
-        .inline-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent-red);
-            transform: scaleX(0.3);
-            transform-origin: bottom left;
-            transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
-        }
-
-        .inline-link:hover::after {
-            transform: scaleX(1);
-        }
-
-        .inline-link:hover {
-            color: var(--accent-red);
-        }
-
-        /* Анимация покачивания ссылки */
-        @keyframes floatingLink {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Адаптивность */
-        @media (max-width: 600px) {
-            h1 {
-                margin-bottom: 2rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Вывески и мозаики Бишкека</title>
+<script data-goatcounter="https://alinatl.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<link rel="icon" type="image/png" href="../images/favicon.png?v=1">
+<link rel="stylesheet" href="mosaics.css">
+<script src="mosaics.js" defer></script>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>Скоро будут!</h1>
-        <p>Планируемая дата публикации раздела: март-апрель 2026 года.</p>
-        <p>А пока можно изучить <a href="../signboards/index.html" class="inline-link">вывески</a>!</p>
+<header id="nav">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">Бишкек • Мозаики</a>
+    <button class="burger" id="burgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="menu" id="mobileMenu">
+      <a href="../signboards/index.html">Вывески</a>
+      <a href="../mosaics/index.html">Мозаики</a>
+      <a href="../archive.html">Архив</a>
+      <a href="../index.html">Главная</a>
+      <a href="../index.html#contact">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>СХЕМЫ МИКРОРАЙОНОВ</h1>
+      <p class="big-text">
+        В 5 и 7 микрорайонах на стенах зданих, выходящих на открытые пространства размещали мозаики со схемами застройки микрорайонов. Сейчас эти схемы-мозаики прячутся за магазинными вывесками или листвой деревьев, не привлекая внимания.
+      </p>
     </div>
+    <div class="carousel">
+      <div class="slide active">
+        <img src="../images_mosaics/7мкрн_4_дом_схема_2_2.webp" alt="ОСЕНЬ 2025. 7 МКРН, ДОМ 4">
+        <div class="caption">ОСЕНЬ 2025. 7 МКРН, ДОМ 4</div>
+      </div>
+      <div class="slide">
+        <img src="../images_mosaics/5мкрн_схема_1.webp" alt="ОСЕНЬ 2025. 5 МКРН, 46 ДОМ">
+        <div class="caption">1970. 5 МКРН, 46 ДОМ. ИСТОЧНИК: FOTO.KG</div>
+      </div>
+      <div class="slide">
+        <img src="../images_mosaics/7мкрн_4_дом_схема_2_3.webp" alt="ОСЕНЬ 2025. 7 МКРН, ДОМ 4">
+        <div class="caption">ОСЕНЬ 2025. 7 МКРН, ДОМ 4</div>
+      </div>
+      <div class="slide">
+        <img src="../images_mosaics/7мкрн_28_дом_схема_2_1.webp" alt="ОСЕНЬ 2025. 7 МКРН, ДОМ 28">
+        <div class="caption">ОСЕНЬ 2025. 7 МКРН, ДОМ 28</div>
+      </div>
+      <div class="slide">
+        <img src="../images_mosaics/7мкрн_28_дом_схема_2_2.webp" alt="ОСЕНЬ 2025. 7 МКРН, ДОМ 28">
+        <div class="caption">ОСЕНЬ 2025. 7 МКРН, ДОМ 28</div>
+      </div>
+      <div class="slide">
+        <img src="../images_mosaics/5мкрн_схема_3_2.webp" alt="ОСЕНЬ 2025. 5 МКРН">
+        <div class="caption">ОСЕНЬ 2025. 5 МКРН, 46 ДОМ</div>
+      </div>
+      <div class="slide">
+        <img src="../images_mosaics/5мкрн_схема_3_3.webp" alt="ОСЕНЬ 2025. 5 МКРН">
+        <div class="caption">ОСЕНЬ 2025. 5 МКРН, 46 ДОМ</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="masonry">
+      <div class="card"><img src="../images_mosaics/7мкрн_4_дом_схема_2_2.webp"><span>ОСЕНЬ 2025. 7 МКРН, ДОМ 4</span></div>
+      <div class="card"><img src="../images_mosaics/7мкрн_4_дом_схема_2_3.webp"><span>ОСЕНЬ 2025. 7 МКРН, ДОМ 4</span></div>
+      <div class="card"><img src="../images_mosaics/7мкрн_28_дом_схема_2_1.webp"><span>ОСЕНЬ 2025. 7 МКРН, ДОМ 28</span></div>
+      <div class="card"><img src="../images_mosaics/7мкрн_28_дом_схема_2_2.webp"><span>ОСЕНЬ 2025. 7 МКРН, ДОМ 28</span></div>
+      <div class="card"><img src="../images_mosaics/5мкрн_схема_1.webp"><span>ОСЕНЬ 2025. 5 МКРН, 46 ДОМ</span></div>
+      <div class="card"><img src="../images_mosaics/5мкрн_схема_3_2.webp"><span>ОСЕНЬ 2025. 5 МКРН, 46 ДОМ</span></div>
+      <div class="card"><img src="../images_mosaics/5мкрн_схема_3_3.webp"><span>ОСЕНЬ 2025. 5 МКРН, 46 ДОМ</span></div>
+    </div>
+  </section>
+
+  <section class="map-section">
+    <div class="map-inner">
+      <p>// ТЕЛЕПОРТ В 2015 </p>
+      <iframe class="map"
+        src="https://www.google.com/maps/embed?pb=!4v1768960937351!6m8!1m7!1sMCN_5dhu3gGCVM9Qmo7B4w!2m2!1d42.83395500711349!2d74.61471757971506!3f98.01031682066419!4f9.044246243277115!5f1.4518276326208261"
+        loading="lazy">
+      </iframe>
+    </div>
+    <div class="map-inner">
+      <p> </p>
+      <iframe class="map"
+        src="https://www.google.com/maps/embed?pb=!4v1768961117690!6m8!1m7!1sIS4vZ5cAObVQycPmy8HzmQ!2m2!1d42.82892915639177!2d74.61416496165103!3f94.53938204505263!4f5.996370952186169!5f1.9535602145732733"
+        loading="lazy">
+      </iframe>
+    </div>
+  </section>
+
+
+  <!-- SECTION: DISCOVERY CLOUD -->
+<section class="tag-cloud-container">
+  <h2 class="tag-cloud-title">СВЯЗАННЫЕ МАТЕРИАЛЫ</h2>
+
+  <div class="tag-cloud">
+    <a href="https://foto.kg/galereya/4063-stroitelstvo-mikrorajonov-pjatyj-mikrorajon.html" class="tag size-m anim-2">FOTO.KG: Историческая справка о строительстве микрорайонов</a>
+    <a href="https://kyrgsoc.org/bez-isklyuchennyh-fenomenologiya-soczialisticheskogo-goroda/" class="tag size-m anim-3">Кыргызсоц: Без исключенных: феноменология социалистического города</a>
+<!--    <a href="#" class="tag size-m anim-1">1970-е</a>-->
+<!--    <a href="#" class="tag size-l anim-2">Мозаика</a>-->
+<!--    <a href="#" class="tag size-s anim-3">Вывески</a>-->
+<!--    <a href="#" class="tag size-m anim-1">Дизайн Города</a>-->
+<!--    <a href="#" class="tag size-l anim-2">Архитектура</a>-->
+<!--    <a href="#" class="tag size-s anim-3">История</a>-->
+<!--    <a href="#" class="tag size-m anim-1">ЦУМ</a>-->
+<!--    <a href="#" class="tag size-l anim-2">Киевская</a>-->
+<!--    <a href="#" class="tag size-s anim-3">Реставрация</a>-->
+  </div>
+</section>
+
+  <section class="navigation">
+    <h2>На что поглазеть?</h2>
+    <div class="nav-grid">
+      <a class="nav-card" href="./1.html"><span>01 / МОЗАИКИ</span><h3>Идем к следующей мозаике!</h3></a>
+      <a class="nav-card" href="../signboards/index.html"><span>02 / ВЫВЕСКИ</span><h3>Изучить вывески</h3></a>
+      <a id="randomLink" class="nav-card" href="#"><span>03 / РАНДОМ</span><h3>Показать случайный объект</h3></a>
+      <a class="nav-card" href="../index.html"><span>04 / ИНФО. ГЛАВНАЯ</span><h3>Манифест проекта</h3></a>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox"><img src=""></div>
 
 </body>
 </html>
