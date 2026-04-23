@@ -113,29 +113,35 @@ lightbox.addEventListener('click', () => {
 });
 
 
-<!--загрузка рандомной ссылки-->
-fetch('pages.json')
-  .then(res => {
-    if (!res.ok) throw new Error('Ошибка загрузки JSON');
-    return res.json();
-  })
-  .then(pages => {
-    // 1. Получаем массив всех ключей (путей к страницам) из объекта
-    const urls = Object.keys(pages);
+// Загрузка рандомной ссылки (единая база объектов)
+const randomLink = document.getElementById('randomLink');
+if (randomLink) {
+  fetch('data/objects.json')
+    .then(res => {
+      if (!res.ok) throw new Error('Ошибка загрузки objects.json');
+      return res.json();
+    })
+    .then(objects => {
+      const urls = objects.map(o => o.url).filter(Boolean);
 
-    // Функция для выбора случайного URL
-    function getRandomUrl() {
-      const randomIndex = Math.floor(Math.random() * urls.length);
-      return urls[randomIndex];
-    }
+      function getRandomUrl() {
+        const randomIndex = Math.floor(Math.random() * urls.length);
+        return urls[randomIndex];
+      }
 
-    // 2. Устанавливаем случайную ссылку сразу при загрузке
-    randomLink.href = getRandomUrl();
+      if (urls.length > 0) {
+        // Задаем ссылку по умолчанию (например, для "Открыть в новой вкладке"),
+        // но основной переход делаем через click, чтобы работало на тач-устройствах.
+        randomLink.href = getRandomUrl();
 
-    // 3. (Опционально) Обновляем ссылку ПЕРЕД переходом,
-    // чтобы при каждом клике был новый результат
-    randomLink.addEventListener('mousedown', () => {
-      randomLink.href = getRandomUrl();
-    });
-  })
-  .catch(err => console.error('Ошибка:', err));
+        randomLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          const url = getRandomUrl();
+          if (!url) return;
+          randomLink.href = url;
+          window.location.href = url;
+        });
+      }
+    })
+    .catch(err => console.error('Ошибка:', err));
+}

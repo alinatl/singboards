@@ -192,114 +192,105 @@
         spans[2].style.transform = mobileMenu.classList.contains('active') ? 'rotate(-45deg) translate(5px, -5px)' : 'none';
     });
 
-    // 2. ВАШИ ДАННЫЕ (как в pages.json)
-    const pages = {
-      "signboards/index.html": "Киевская 155",
-      "signboards/1.html": "Салон Ай-Пери",
-      "signboards/2.html": "ЦУМ. Айчүрөк",
-      "signboards/3.html": "Байчечекей",
-      "signboards/4.html": "Гос банк СССР",
-      "signboards/5.html": "Дежурная аптека. 5 МКРН",
-      "signboards/6.html": "Перекресток Абдрахманова / Боконбаева",
-      "signboards/7.html": "Дом Союзов",
-      "signboards/8.html": "Дом геологов на Байтик Баатыра 124",
-      "signboards/9.html": "ДСК",
-      "signboards/10.html": "Илбирс",
-      "signboards/11.html": "Кинотеатр Манас",
-      "signboards/12.html": "Музей Фрунзе",
-      "signboards/13.html": "Театр драмы и сатиры (Бывший кинотеатр Октябрь)",
-      "signboards/14.html": "Кинотеатр Россия",
-      "signboards/15.html": "Государственная Трудовая Сберегательная Касса",
-      "signboards/16.html": "Сберкасса",
-      "signboards/17.html": "Светоч",
-      "signboards/18.html": "Слава советскому ...",
-      "signboards/19.html": "Театр Тунгуч",
-      "signboards/20.html": "Центральный",
-      "signboards/21.html": "Цирк",
-      "signboards/22.html": "Планетарий",
-      "signboards/23.html": "Продовольственный",
-      "signboards/24.html": "Западный автовокзал",
-      "signboards/25.html": "Мебель",
-      "signboards/26.html": "Устаревшие названия улиц",
-      "signboards/27.html": "Пожарная станция",
-      "signboards/28.html": "Павильон Ак-Суу (Соки-Воды)"
-    };
-
-    // 3. Преобразуем объект в массив и сортируем по названию (второй, Киевская, первый...)
-    const artObjects = Object.entries(pages).map(([url, name]) => ({
-        url: url,
-        name: name
-    }));
-
-    // Сортировка по алфавиту без учета регистра
-    artObjects.sort((a, b) => a.name.localeCompare(b.name, 'ru', { sensitivity: 'base' }));
-
     const archiveContent = document.getElementById('archive-content');
     const alphabetNav = document.getElementById('alphabet-nav');
 
-    // 4. Группировка по первой букве названия
-    const grouped = artObjects.reduce((acc, obj) => {
-        const letter = obj.name[0].toUpperCase();
-        if (!acc[letter]) acc[letter] = [];
-        acc[letter].push(obj);
-        return acc;
-    }, {});
+    function typeLabel(type) {
+        if (type === 'mosaic') return 'Мозаика';
+        return 'Вывеска';
+    }
 
-    const sortedLetters = Object.keys(grouped).sort();
+    async function loadObjects() {
+        const res = await fetch('data/objects.json');
+        if (!res.ok) throw new Error(`objects.json: HTTP ${res.status}`);
+        return res.json();
+    }
 
-    // 5. Генерация навигации и контента
-    sortedLetters.forEach(letter => {
-        const navBtn = document.createElement('a');
-        navBtn.href = `#letter-${letter}`;
-        navBtn.innerText = letter;
-        navBtn.className = "hover:text-black transition-colors duration-300 flex-shrink-0 cursor-pointer py-1";
-        navBtn.onclick = (e) => {
-            e.preventDefault();
-            const target = document.getElementById(`letter-${letter}`);
-            window.scrollTo({ top: target.offsetTop - 110, behavior: 'smooth' });
-            mobileMenu.classList.remove('active');
-        };
-        alphabetNav.appendChild(navBtn);
+    (async () => {
+        let objects = [];
+        try {
+            objects = await loadObjects();
+        } catch (err) {
+            console.error('Ошибка загрузки объектов:', err);
+            archiveContent.innerHTML = '<p class="text-gray-500 italic">Не удалось загрузить список объектов.</p>';
+            return;
+        }
 
-        const section = document.createElement('section');
-        section.id = `letter-${letter}`;
-        section.className = "relative border-t border-gray-100 pt-20 pb-10 overflow-hidden";
-        section.innerHTML = `
-            <div class="absolute -top-4 -left-4 select-none z-0">
-                <span class="outline-text font-black leading-none opacity-20 uppercase">${letter}</span>
-            </div>
-            <div class="relative z-10">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8">
-                    ${grouped[letter].map(item => `
-                        <a href="${item.url}" class="object-link group">
-                            <span class="text-2xl md:text-1xl tracking-tight">${item.name}</span>
-                        </a>
-                    `).join('')}
+        // Преобразуем в массив для рендера архива
+        const artObjects = objects.map(obj => ({
+            url: obj.url,
+            name: obj.title,
+            type: obj.type
+        }));
+
+        // Сортировка по алфавиту без учета регистра
+        artObjects.sort((a, b) => a.name.localeCompare(b.name, 'ru', { sensitivity: 'base' }));
+
+        // Группировка по первой букве названия
+        const grouped = artObjects.reduce((acc, obj) => {
+            const letter = obj.name[0].toUpperCase();
+            if (!acc[letter]) acc[letter] = [];
+            acc[letter].push(obj);
+            return acc;
+        }, {});
+
+        const sortedLetters = Object.keys(grouped).sort();
+
+        // Генерация навигации и контента
+        sortedLetters.forEach(letter => {
+            const navBtn = document.createElement('a');
+            navBtn.href = `#letter-${letter}`;
+            navBtn.innerText = letter;
+            navBtn.className = "hover:text-black transition-colors duration-300 flex-shrink-0 cursor-pointer py-1";
+            navBtn.onclick = (e) => {
+                e.preventDefault();
+                const target = document.getElementById(`letter-${letter}`);
+                window.scrollTo({ top: target.offsetTop - 110, behavior: 'smooth' });
+                mobileMenu.classList.remove('active');
+            };
+            alphabetNav.appendChild(navBtn);
+
+            const section = document.createElement('section');
+            section.id = `letter-${letter}`;
+            section.className = "relative border-t border-gray-100 pt-20 pb-10 overflow-hidden";
+            section.innerHTML = `
+                <div class="absolute -top-4 -left-4 select-none z-0">
+                    <span class="outline-text font-black leading-none opacity-20 uppercase">${letter}</span>
                 </div>
-            </div>
-        `;
-        archiveContent.appendChild(section);
-    });
-
-    // 6. Подсветка активной буквы при скролле
-    window.addEventListener('scroll', () => {
-        let current = "";
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.pageYOffset >= sectionTop - 130) {
-                current = section.getAttribute('id');
-            }
+                <div class="relative z-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8">
+                        ${grouped[letter].map(item => `
+                            <a href="${item.url}" class="object-link group justify-between gap-4">
+                                <span class="text-2xl md:text-1xl tracking-tight">${item.name}</span>
+                                <span class="text-xs uppercase tracking-widest text-gray-400">${typeLabel(item.type)}</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            archiveContent.appendChild(section);
         });
 
-        document.querySelectorAll('#alphabet-nav a').forEach(item => {
-            item.classList.remove('active-letter');
-            if (item.getAttribute('href') === `#${current}`) {
-                item.classList.add('active-letter');
-                item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
+        // Подсветка активной буквы при скролле
+        window.addEventListener('scroll', () => {
+            let current = "";
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 130) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('#alphabet-nav a').forEach(item => {
+                item.classList.remove('active-letter');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active-letter');
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
         });
-    });
+    })();
 </script>
 
 </body>

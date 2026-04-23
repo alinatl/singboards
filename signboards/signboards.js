@@ -114,38 +114,32 @@ lightbox.addEventListener('click', () => {
 });
 
 
-<!--загрузка рандомной ссылки-->
+// Загрузка рандомной ссылки (единая база объектов)
 const randomLink = document.getElementById('randomLink');
+if (randomLink) {
+  fetch('../data/objects.json')
+    .then(res => {
+      if (!res.ok) throw new Error('Ошибка загрузки objects.json');
+      return res.json();
+    })
+    .then(objects => {
+      const urls = objects
+        .filter(o => o && o.type === 'signboard')
+        .map(o => o.url)
+        .filter(Boolean)
+        .map(url => '../' + (url.startsWith('/') ? url.substring(1) : url));
 
-fetch('../pages.json')
-  .then(res => {
-    if (!res.ok) throw new Error('Ошибка загрузки JSON');
-    return res.json();
-  })
-  .then(pages => {
-    // 1. Получаем ключи и сразу добавляем к ним ../
-    const urls = Object.keys(pages).map(url => {
-      // Убираем начальный слэш, если он есть, чтобы не было ..//
-      const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
-      return '../' + cleanUrl;
-    });
+      function getRandomUrl() {
+        const randomIndex = Math.floor(Math.random() * urls.length);
+        return urls[randomIndex];
+      }
 
-    // Функция для выбора случайного URL
-    function getRandomUrl() {
-      const randomIndex = Math.floor(Math.random() * urls.length);
-      return urls[randomIndex];
-    }
-
-    // 2. Устанавливаем случайную ссылку сразу при загрузке
-    if (urls.length > 0) {
-      randomLink.href = getRandomUrl();
-    }
-
-    // 3. Обновляем ссылку при клике (mousedown срабатывает быстрее обычного click)
-    randomLink.addEventListener('mousedown', () => {
       if (urls.length > 0) {
         randomLink.href = getRandomUrl();
+        randomLink.addEventListener('mousedown', () => {
+          randomLink.href = getRandomUrl();
+        });
       }
-    });
-  })
-  .catch(err => console.error('Ошибка:', err));
+    })
+    .catch(err => console.error('Ошибка:', err));
+}
