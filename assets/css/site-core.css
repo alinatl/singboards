@@ -1,0 +1,121 @@
+@font-face {
+  font-family: 'SovietStyleCyrilic';
+  src: url('../../fonts/SovietStyleCyrilic-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+:root {
+  --bg-main: #fbfbfb;
+  --accent-red: #CC0000;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --text-main: #1a1a1a;
+  --text-dim: #666;
+  --card-bg: #ffffff;
+  --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  transition: var(--transition-base);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("../../images_compress/background.webp") center / cover no-repeat;
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+}
+
+main { padding-top: 100px; }
+
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  backdrop-filter: blur(20px);
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 1000;
+}
+
+header.hidden { transform: translateY(-100%); }
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'SovietStyleCyrilic', sans-serif;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--accent-red);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.burger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #000;
+  transition: 0.3s;
+}
+
+.menu {
+  position: fixed;
+  top: 0; right: -100%;
+  width: 80%; height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 40px;
+  gap: 20px;
+  transition: 0.4s;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  z-index: 1050;
+}
+
+.menu.active { right: 0; }
+.menu a { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: #000; }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  cursor: zoom-out;
+}
+
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 90%; max-height: 85%; object-fit: contain; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+
