@@ -56,7 +56,13 @@
 
     carousels.forEach((carousel) => {
       const slides = carousel.querySelectorAll('.slide');
-      if (!slides || slides.length <= 1) return;
+      if (!slides || slides.length === 0) return;
+
+      // If there is only one slide and it's missing `.active`, it stays invisible due to CSS.
+      if (slides.length === 1) {
+        slides[0].classList.add('active');
+        return;
+      }
 
       let current = 0;
       slides.forEach((s, i) => {
@@ -178,4 +184,3 @@
 
   window.SiteCore = { init: init };
 })();
-
